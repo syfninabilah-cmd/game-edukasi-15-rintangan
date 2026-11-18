@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><meta name="google" content="notranslate"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Misi Android Studio: Bangun Aplikasi Pertamamu</title>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misi Android Studio: 15 Tantangan</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#0b1620;overflow:hidden;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
@@ -31,14 +31,11 @@ ul{font-size:21px;line-height:1.4;margin:0;padding-left:24px}li{margin-bottom:8p
 textarea{width:100%;height:80px;font:inherit;font-size:19px;border-radius:8px;border:2px solid #5a7a98;padding:8px;background:#fff;color:#12263A}
 code{font-family:Consolas,monospace;background:#0b1620;padding:2px 8px;border-radius:6px;color:#F2B84B}
 [draggable=true]{cursor:grab}
-.col>.card .slot{padding:1px 0!important;font-size:14px}
-#rot{display:none}@media (orientation:portrait){#rot{display:block;position:fixed;left:0;right:0;bottom:0;z-index:9;background:#F2B84B;color:#12263A;text-align:center;font-weight:700;padding:10px;font-size:15px}}
-</style></head><body translate="no"><script>onerror=function(m,u,l){var d=document.createElement("div");d.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99;background:#B3261E;color:#fff;padding:10px;font:14px sans-serif";d.textContent="Error: "+m+" (baris "+l+")";document.body.appendChild(d)}</script>
-<div id="rot">Putar HP ke posisi mendatar (landscape) agar game tampil penuh</div><div id="stage"><div id="hd"></div><div id="mn" style="font-size:28px">Memuat game…<noscript><br>JavaScript di browsermu dimatikan.</noscript></div><div id="ft"></div></div>
-<script>document.getElementById("mn").innerHTML="JavaScript aktif, tetapi game gagal dimuat. Kirim tangkapan layar ini."</script>
-<script src="game.js?v=2" onerror="document.getElementById('mn').innerHTML='File game.js tidak ditemukan. Unggah game.js ke repositori yang sama dengan index.html.'"></script></body></html>
+</style></head><body>
+<div id="stage"><div id="hd"></div><div id="mn"></div><div id="ft"></div></div>
+<script>
 const E=id=>document.getElementById(id);
-const Z=()=>Array(16).fill(0);const S={scr:'cover',done:Z(),sc:Z(),lv:Array(16).fill(3),m:Array(16).fill(null)};
+const Z=v=>Array(16).fill(v),S={scr:'cover',done:Z(0),sc:Z(0),lv:Z(3),m:Z(null)};
 let ac,mute=false;
 const total=()=>S.sc.reduce((a,b)=>a+b,0);
 function snd(ok){if(mute)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type=ok?'sine':'square';o.frequency.value=ok?660:200;g.gain.value=.07;o.start();o.stop(ac.currentTime+(ok?.15:.25))}catch(e){}}
@@ -77,7 +74,7 @@ E('hd').style.display=S.scr=='cover'?'none':'flex';
 E('hd').innerHTML='<b>Misi Android Studio</b><span>'+(i>=0?'Energi: '+'♥'.repeat(S.lv[i])+'♡'.repeat(3-S.lv[i]):'')+'</span><span>Skor: '+total()+'</span><span>Selesai: '+S.done.filter(x=>x).length+'/16</span><button id="mt">'+(mute?'Suara mati':'Suara aktif')+'</button><button id="mu">Menu</button>';
 E('mt').onclick=()=>{mute=!mute;hud()};E('mu').onclick=()=>go('menu')}
 function nav(){const s=S.scr,i=/^m\d+$/.test(s)?+s.slice(1)-1:(s=='demo'?15:-1),all=S.done.every(x=>x),z=S.done.indexOf(0);
-const pv={guide:'cover',menu:'guide',m1:'menu',m2:'menu',m3:'menu',m4:'menu',m5:'menu',demo:'menu',result:'menu',credit:'result'}[s]||(i>=0?'menu':0);
+const pv={guide:'cover',menu:'guide',m1:'menu',m2:'menu',m3:'menu',m4:'menu',m5:'menu',demo:'menu',result:'menu',credit:'result'}[s]||(/^m\d+$/.test(s)?'menu':0);
 let nx={cover:'guide',guide:'menu',menu:all?'result':(z<15?'m'+(z+1):'demo'),result:'credit'}[s],ok=s!='credit',lb=s=='cover'?'Mulai':'Berikutnya';
 if(i>=0){ok=!!S.done[i];nx=i<14?'m'+(i+2):(i==14?'demo':(all?'result':'menu'));if(i==15)lb=all?'Lihat hasil':'Ke menu'}
 const mid=i>=0?(i==15?'Demo ke klien':'Misi '+(i+1)+' dari 15'):({guide:'Panduan',menu:'Menu misi',result:'Evaluasi',credit:'Informasi kreator'}[s]||'');
@@ -89,8 +86,7 @@ function go(s){stopT();S.scr=s;R[s]();hud();nav()}
 const R={
 cover(){E('mn').innerHTML='<div class="row" style="height:100%;align-items:center"><div class="col" style="flex:1.3;gap:6px"><h1>Misi Android Studio</h1><h2 style="color:#F2B84B;font-size:38px">Bangun Aplikasi Pertamamu</h2><p>Studio Kodeku menerima proyek aplikasi kasir untuk koperasi sekolah. Jadilah developer junior: kenali alat kerjamu, rancang layar, hubungkan kode, dan bereskan bug sebelum tenggat!</p></div><svg viewBox="0 0 300 440" width="270" height="396" role="img" aria-label="Ilustrasi ponsel Android dengan kode"><rect x="20" y="10" width="260" height="420" rx="36" fill="#1c3a54" stroke="#F2B84B" stroke-width="5"/><rect x="40" y="50" width="220" height="340" rx="14" fill="#0b1620"/><circle cx="150" cy="130" r="44" fill="#1F7A52"/><rect x="60" y="210" width="130" height="14" rx="7" fill="#F2B84B"/><rect x="60" y="240" width="180" height="14" rx="7" fill="#8fb0cc"/><rect x="60" y="270" width="100" height="14" rx="7" fill="#8fb0cc"/><rect x="60" y="320" width="180" height="38" rx="10" fill="#F2B84B"/></svg></div>'},
 guide(){E('mn').innerHTML='<h2>Panduan</h2><div class="row"><div class="card col"><h2 style="font-size:26px">Tujuan belajar</h2><ul><li>Mengenali bagian jendela Android Studio dan fungsinya.</li><li>Menyusun langkah membuat dan menjalankan proyek.</li><li>Merancang layar dan menghubungkannya dengan kode.</li><li>Menemukan penyebab masalah lewat Logcat dan Gradle.</li></ul></div><div class="card col"><h2 style="font-size:26px">Aturan main</h2><ul><li>Ada 15 misi dan satu demo ke klien. Tiap misi punya 3 energi.</li><li>Jawaban benar memberi +100 skor. Jawaban salah mengurangi 1 energi.</li><li>Misi 5 punya waktu bonus, jadi ambil keputusan dengan cepat dan tepat.</li><li>Pilih misi bebas lewat Menu. Tombol Berikutnya aktif setelah misi selesai.</li></ul></div></div><p style="margin-top:14px">Mentor Bina menemanimu di studio. Kamu berlatih mengambil keputusan, memecahkan masalah, dan mengatur waktu seperti developer sungguhan.</p>'},
-menu(){const M=[['Misi 1','Kenali Ruang Kerjamu','Cocokkan bagian jendela dengan fungsinya.'],['Misi 2','Mulai Proyek','Urutkan langkah membuat proyek.'],['Misi 3','Rancang Layar Kasir','Seret komponen ke layar ponsel.'],['Misi 4','Hubungkan Kode','Lengkapi potongan kode Kotlin.'],['Misi 5','Tiket Bug dari Klien','Putuskan tindakan untuk 3 kasus.'],['Demo ke klien','Serah Terima','Kuis 5 soal acak dan refleksi.']];
-E('mn').innerHTML='<h2>Menu misi</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">'+M.map((m,i)=>'<div class="card col" style="gap:6px"><b style="font-size:18px;color:#F2B84B">'+m[0]+(S.done[i]?' (skor '+S.sc[i]+')':'')+'</b><h2 style="font-size:24px;margin:0">'+m[1]+'</h2><p style="font-size:18px;margin:0">'+m[2]+'</p><button class="pri" style="margin-top:6px" data-a="g" data-v="'+(i<5?'m'+(i+1):'demo')+'">'+(S.done[i]?'Main lagi':'Mainkan')+'</button></div>').join('')+'</div>'},
+menu(){E('mn').innerHTML='<h2 style="font-size:26px;margin-bottom:6px">Menu misi</h2><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">'+MS.map((t,i)=>'<div class="card col" style="gap:2px;padding:8px 14px"><b style="font-size:15px;color:#F2B84B">'+(i<15?'Misi '+(i+1):'Demo ke klien')+(S.done[i]?' (skor '+S.sc[i]+')':'')+'</b><div style="font-size:18px;line-height:1.2;min-height:40px">'+(i==15?'Serah Terima':t)+'</div><button class="pri" style="min-height:36px;padding:4px 12px;font-size:18px" data-a="g" data-v="'+(i<15?'m'+(i+1):'demo')+'">'+(S.done[i]?'Main lagi':'Mainkan')+'</button></div>').join('')+'</div>'},
 m1(){const m=S.m[0]=S.m[0]||{sel:null,ok:[]};
 const G=[['run',0,0,560,40],['pr',0,44,120,166],['ed',124,44,300,166],['dm',428,44,132,166],['lg',0,214,560,86]];
 const svg=G.map(([k,x,y,w,h])=>'<g class="reg '+(m.ok.includes(k)?'ok':'')+' '+(m.sel==k?'sel':'')+'" data-a="k1" data-v="'+k+'" tabindex="0" role="button" aria-label="Bagian jendela"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8"/><text x="'+(x+w/2)+'" y="'+(y+h/2+7)+'" text-anchor="middle" font-size="'+(k=='dm'?15:20)+'">'+(m.ok.includes(k)?P.find(p=>p[2]==k)[0]:'?')+'</text></g>').join('');
@@ -112,43 +108,14 @@ E('mn').innerHTML='<h2>Misi 5: Tiket bug dari klien</h2><div style="display:flex
 demo(){const m=S.m[15]=S.m[15]||{q:0,set:D.map((x,i)=>i).sort(()=>Math.random()-.5).slice(0,5)};
 const c=D[m.set[m.q]];
 E('mn').innerHTML='<h2>Demo ke klien</h2><div style="font-size:22px;margin-bottom:8px">Soal '+(m.q+1)+' dari 5</div><div class="card"><p style="margin:0">'+c.q+'</p></div><div class="col" style="margin-top:12px;gap:8px">'+c.o.map((o,i)=>'<button data-a="o6" data-v="'+i+'">'+o+'</button>').join('')+'</div><div id="fb">Pilih jawaban yang paling tepat.</div>'},
-result(){const t=total(),p=Math.min(1,t/6300),n=p>=.85?3:p>=.6?2:1,L=['Calon developer, ayo coba lagi','Android Developer Junior','Android Developer Handal'][n-1];
-const N=TT;
-const K=[['Mengenali',S.sc[0]/500],['Menyusun',(S.sc[1]+S.sc[2]+S.sc[3])/1400],['Menganalisis',(S.sc[4]+S.sc[15])/800]],lo=K.slice().sort((a,b)=>a[1]-b[1])[0][0];
-E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="font-size:24px">Ringkasan pencapaian</h2>'+N.map((x,i)=>'<div class="slot" style="padding:5px 0">'+''+x+' <b style="float:right">'+S.sc[i]+'</b></div>').join('')+'</div><div class="card"><h2 style="font-size:22px">Refleksi</h2><p style="font-size:19px">Jika klien melapor aplikasi crash, apa yang pertama kali kamu lakukan dan mengapa?</p><textarea style="height:60px" aria-label="Jawaban refleksi"></textarea></div></div></div>';
-E('ag').onclick=()=>{S.done=Z();S.sc=Z();S.lv=Array(16).fill(3);S.m=Array(16).fill(null);go('menu')}},
+result(){const t=total(),p=Math.min(1,t/6300),n=p>=.85?3:p>=.6?2:1,L=['Calon developer, ayo coba lagi','Android Developer Junior','Android Developer Handal'][n-1],q=(...a)=>a.reduce((x,i)=>x+S.sc[i],0);
+const K=[['Mengenali',q(0,5,6,9)/1400],['Menyusun',q(1,2,3,7,8,10,12,13)/3500],['Menganalisis',q(4,11,14,15)/1400]],lo=K.slice().sort((a,b)=>a[1]-b[1])[0][0];
+E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="font-size:22px">Ringkasan pencapaian</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px">'+MS.map((x,i)=>'<div style="display:flex;justify-content:space-between;gap:6px;font-size:14px;padding:3px 0;border-bottom:1px solid #3d5c78"><span>'+(i<15?(i+1)+'. ':'')+x+'</span><b>'+S.sc[i]+'</b></div>').join('')+'</div></div><div class="card"><h2 style="font-size:22px">Refleksi</h2><p style="font-size:19px">Jika klien melapor aplikasi crash, apa yang pertama kali kamu lakukan dan mengapa?</p><textarea style="height:60px" aria-label="Jawaban refleksi"></textarea></div></div></div>';
+E('ag').onclick=()=>{S.done=Z(0);S.sc=Z(0);S.lv=Z(3);S.m=Z(null);go('menu')}},
 credit(){E('mn').innerHTML='<h2>Informasi kreator</h2><div class="card"><p>Kreator: [isi nama kreator, boleh disertai gelar]</p><p>Organisasi: [isi nama sekolah atau institusi]</p></div><div class="card" style="margin-top:14px"><p style="font-size:20px">Aset: seluruh ilustrasi berupa grafik vektor (SVG) yang dibuat oleh pengembang. Bunyi umpan balik dihasilkan oleh Web Audio API. Tidak ada aset atau tautan eksternal.</p></div>'}
 };
 
-/* ---------- aksi ---------- */
-const A={
-g:v=>{const i=v=='demo'?15:+v.slice(1)-1;if(S.done[i]){S.done[i]=0;S.sc[i]=0;S.lv[i]=3;S.m[i]=null}go(v)},
-k1(k){const m=S.m[0];if(m.ok.includes(k))return;m.sel=k;R.m1();fb('Bagian dipilih. Sekarang pilih fungsinya.')},
-d1(v){const m=S.m[0];v=+v;if(!m.sel){fb('Klik dulu salah satu bagian jendela.','bad');return}
- if(P[v][2]==m.sel){m.ok.push(m.sel);m.sel=null;S.sc[0]+=100;snd(1);R.m1();hud();
-  if(m.ok.length==5){S.done[0]=1;nav();fb('Misi 1 selesai! Kamu sudah mengenal ruang kerjamu. +100','ok')}else fb('Benar! '+P[v][0]+': '+P[v][1]+'. +100','ok')}
- else{lose(0);fb('Belum tepat. Petunjuk: '+P.find(p=>p[2]==m.sel)[3],'bad')}},
-s2(v){const m=S.m[1];v=+v;
- if(v==m.n){m.n++;S.sc[1]+=100;snd(1);R.m2();hud();
-  if(m.n==6){S.done[1]=1;nav();fb('Misi 2 selesai! Aplikasimu berjalan. '+EX[v]+' +100','ok')}else fb('Tepat! '+EX[v]+' +100','ok')}
- else{lose(1);fb('Belum urutan itu. Tanyakan: apa yang harus siap sebelum langkah ini?','bad')}},
-o5(v){const m=S.m[4],c=Q[m.q],bs=document.querySelectorAll('[data-a=o5]');v=+v;
- if(v==c.a){const pts=m.w?50:100;S.sc[4]+=pts;snd(1);bs.forEach((b,i)=>{b.disabled=true;if(i==v)b.classList.add('ok')});
-  if(m.q==2){stopT();const bn=m.t*2;S.sc[4]+=bn;S.done[4]=1;nav();fb(c.e+' +'+pts+'. Misi 5 selesai! Bonus waktu +'+bn,'ok')}
-  else{fb(c.e+' +'+pts,'ok');E('mn').insertAdjacentHTML('beforeend','<button class="pri" style="margin-top:10px" data-a="n5">Kasus berikutnya</button>')}
-  hud()}
- else{m.w=1;bs[v].disabled=true;bs[v].classList.add('bad');lose(4);fb('Belum tepat. Pikirkan lagi penyebab masalah sebelum bertindak. Coba pilihan lain.','bad')}},
-n5(){const m=S.m[4];m.q++;m.w=0;R.m5()},
-c3(v){const m=S.m[2];if(m.ok.includes(v))return;m.sel=v;R.m3();fb('Komponen '+v+' dipilih. Sekarang pilih tempatnya.')},
-t3(i){const m=S.m[2],HI=['Judul berupa teks yang hanya ditampilkan.','Pengguna harus bisa mengetik di sini.','Pengguna menekan ini untuk menjalankan aksi.','Ini menampilkan gambar, bukan teks.'];i=+i;
- if(!m.sel){fb('Pilih dulu komponennya.','bad');return}
- if(m.ok.includes(SL[i]))return;
- if(SL[i]==m.sel){m.ok.push(m.sel);m.sel=null;S.sc[2]+=100;snd(1);R.m3();hud();
-  if(m.ok.length==4){S.done[2]=1;nav();fb('Misi 3 selesai! Layar kasir siap dipakai. +100','ok')}else fb('Tepat! Komponen itu cocok dengan tempatnya. +100','ok')}
- else{lose(2);fb('Belum cocok. Petunjuk: '+HI[i],'bad')}},
-w4(v){const m=S.m[3],ans=['btn_hitung','setOnClickListener','edit_harga','toString'],EX=['ID harus sama persis dengan di layout.','Aksi klik dipasang dengan setOnClickListener.','Kolom harga memakai ID edit_harga.','Isi kolom diambil sebagai teks dengan toString().'];
- if(v==ans[m.n]){m.n++;S.sc[3]+=100;snd(1);R.m4();hud();
-  if(m.n==4){S.done[3]=1;nav();fb('Misi 4 selesai! Tombol Hitung kini berfungsi. +100','ok')}else fb('Tepat! '+EX[m.n-1]+' +100','ok')}
- else{lose(3);fb('Belum tepat. Cek lagi ID di layout dan nama fungsi yang dipakai.','bad')}},
-o6(v){const m=S.m[15],c=D[m.set[m.q]],bs=document.querySelectorAll('[data-a=o6]');v=+v;
- bs.forEach((b,i)=>{b.disabled=true;if(i==c.a)b.classList.a
+/* ---------- misi 6-15 ---------- */
+const MS=['Kenali Ruang Kerjamu','Mulai Proyek','Rancang Layar Kasir','Hubungkan Kode','Tiket Bug dari Klien','Peta Proyek','Pilih Tata Letak','Daur Hidup Activity','Pindah Layar','Variabel dan Tipe Data','Alur Debugging','Dunia Kecerdasan Artifisial','Hitung Diskon','Menerbitkan APK','Etika dan Keamanan','Demo ke klien'];
+const X={
+ 
