@@ -36,7 +36,7 @@ code{font-family:Consolas,monospace;background:#0b1620;padding:2px 8px;border-ra
 </style></head><body translate="no"><script>onerror=function(m,u,l){var d=document.createElement("div");d.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99;background:#B3261E;color:#fff;padding:10px;font:14px sans-serif";d.textContent="Error: "+m+" (baris "+l+")";document.body.appendChild(d)}</script>
 <div id="rot">Putar HP ke posisi mendatar (landscape) agar game tampil penuh</div><div id="stage"><div id="hd"></div><div id="mn" style="font-size:28px">Memuat game…<noscript><br>JavaScript di browsermu dimatikan.</noscript></div><div id="ft"></div></div>
 <script>document.getElementById("mn").innerHTML="JavaScript aktif, tetapi game gagal dimuat. Kirim tangkapan layar ini."</script>
-<script>
+<script src="game.js?v=2" onerror="document.getElementById('mn').innerHTML='File game.js tidak ditemukan. Unggah game.js ke repositori yang sama dengan index.html.'"></script></body></html>
 const E=id=>document.getElementById(id);
 const Z=()=>Array(16).fill(0);const S={scr:'cover',done:Z(),sc:Z(),lv:Array(16).fill(3),m:Array(16).fill(null)};
 let ac,mute=false;
@@ -115,4 +115,40 @@ E('mn').innerHTML='<h2>Demo ke klien</h2><div style="font-size:22px;margin-botto
 result(){const t=total(),p=Math.min(1,t/6300),n=p>=.85?3:p>=.6?2:1,L=['Calon developer, ayo coba lagi','Android Developer Junior','Android Developer Handal'][n-1];
 const N=TT;
 const K=[['Mengenali',S.sc[0]/500],['Menyusun',(S.sc[1]+S.sc[2]+S.sc[3])/1400],['Menganalisis',(S.sc[4]+S.sc[15])/800]],lo=K.slice().sort((a,b)=>a[1]-b[1])[0][0];
-E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="font-size:24px">Ringkasan pencapaian</h2>'+N.map((x,i)=>'<div class="slot" style="padding:5px 0">'+''+x+' <b style="float:right">'+S.sc[i]+'</b></div>').join('')+'</div><div class="card"><h2 style="font-size:22px">Refleksi</h2><p style="font-size:19px">Jika klien melapor aplikas
+E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="font-size:24px">Ringkasan pencapaian</h2>'+N.map((x,i)=>'<div class="slot" style="padding:5px 0">'+''+x+' <b style="float:right">'+S.sc[i]+'</b></div>').join('')+'</div><div class="card"><h2 style="font-size:22px">Refleksi</h2><p style="font-size:19px">Jika klien melapor aplikasi crash, apa yang pertama kali kamu lakukan dan mengapa?</p><textarea style="height:60px" aria-label="Jawaban refleksi"></textarea></div></div></div>';
+E('ag').onclick=()=>{S.done=Z();S.sc=Z();S.lv=Array(16).fill(3);S.m=Array(16).fill(null);go('menu')}},
+credit(){E('mn').innerHTML='<h2>Informasi kreator</h2><div class="card"><p>Kreator: [isi nama kreator, boleh disertai gelar]</p><p>Organisasi: [isi nama sekolah atau institusi]</p></div><div class="card" style="margin-top:14px"><p style="font-size:20px">Aset: seluruh ilustrasi berupa grafik vektor (SVG) yang dibuat oleh pengembang. Bunyi umpan balik dihasilkan oleh Web Audio API. Tidak ada aset atau tautan eksternal.</p></div>'}
+};
+
+/* ---------- aksi ---------- */
+const A={
+g:v=>{const i=v=='demo'?15:+v.slice(1)-1;if(S.done[i]){S.done[i]=0;S.sc[i]=0;S.lv[i]=3;S.m[i]=null}go(v)},
+k1(k){const m=S.m[0];if(m.ok.includes(k))return;m.sel=k;R.m1();fb('Bagian dipilih. Sekarang pilih fungsinya.')},
+d1(v){const m=S.m[0];v=+v;if(!m.sel){fb('Klik dulu salah satu bagian jendela.','bad');return}
+ if(P[v][2]==m.sel){m.ok.push(m.sel);m.sel=null;S.sc[0]+=100;snd(1);R.m1();hud();
+  if(m.ok.length==5){S.done[0]=1;nav();fb('Misi 1 selesai! Kamu sudah mengenal ruang kerjamu. +100','ok')}else fb('Benar! '+P[v][0]+': '+P[v][1]+'. +100','ok')}
+ else{lose(0);fb('Belum tepat. Petunjuk: '+P.find(p=>p[2]==m.sel)[3],'bad')}},
+s2(v){const m=S.m[1];v=+v;
+ if(v==m.n){m.n++;S.sc[1]+=100;snd(1);R.m2();hud();
+  if(m.n==6){S.done[1]=1;nav();fb('Misi 2 selesai! Aplikasimu berjalan. '+EX[v]+' +100','ok')}else fb('Tepat! '+EX[v]+' +100','ok')}
+ else{lose(1);fb('Belum urutan itu. Tanyakan: apa yang harus siap sebelum langkah ini?','bad')}},
+o5(v){const m=S.m[4],c=Q[m.q],bs=document.querySelectorAll('[data-a=o5]');v=+v;
+ if(v==c.a){const pts=m.w?50:100;S.sc[4]+=pts;snd(1);bs.forEach((b,i)=>{b.disabled=true;if(i==v)b.classList.add('ok')});
+  if(m.q==2){stopT();const bn=m.t*2;S.sc[4]+=bn;S.done[4]=1;nav();fb(c.e+' +'+pts+'. Misi 5 selesai! Bonus waktu +'+bn,'ok')}
+  else{fb(c.e+' +'+pts,'ok');E('mn').insertAdjacentHTML('beforeend','<button class="pri" style="margin-top:10px" data-a="n5">Kasus berikutnya</button>')}
+  hud()}
+ else{m.w=1;bs[v].disabled=true;bs[v].classList.add('bad');lose(4);fb('Belum tepat. Pikirkan lagi penyebab masalah sebelum bertindak. Coba pilihan lain.','bad')}},
+n5(){const m=S.m[4];m.q++;m.w=0;R.m5()},
+c3(v){const m=S.m[2];if(m.ok.includes(v))return;m.sel=v;R.m3();fb('Komponen '+v+' dipilih. Sekarang pilih tempatnya.')},
+t3(i){const m=S.m[2],HI=['Judul berupa teks yang hanya ditampilkan.','Pengguna harus bisa mengetik di sini.','Pengguna menekan ini untuk menjalankan aksi.','Ini menampilkan gambar, bukan teks.'];i=+i;
+ if(!m.sel){fb('Pilih dulu komponennya.','bad');return}
+ if(m.ok.includes(SL[i]))return;
+ if(SL[i]==m.sel){m.ok.push(m.sel);m.sel=null;S.sc[2]+=100;snd(1);R.m3();hud();
+  if(m.ok.length==4){S.done[2]=1;nav();fb('Misi 3 selesai! Layar kasir siap dipakai. +100','ok')}else fb('Tepat! Komponen itu cocok dengan tempatnya. +100','ok')}
+ else{lose(2);fb('Belum cocok. Petunjuk: '+HI[i],'bad')}},
+w4(v){const m=S.m[3],ans=['btn_hitung','setOnClickListener','edit_harga','toString'],EX=['ID harus sama persis dengan di layout.','Aksi klik dipasang dengan setOnClickListener.','Kolom harga memakai ID edit_harga.','Isi kolom diambil sebagai teks dengan toString().'];
+ if(v==ans[m.n]){m.n++;S.sc[3]+=100;snd(1);R.m4();hud();
+  if(m.n==4){S.done[3]=1;nav();fb('Misi 4 selesai! Tombol Hitung kini berfungsi. +100','ok')}else fb('Tepat! '+EX[m.n-1]+' +100','ok')}
+ else{lose(3);fb('Belum tepat. Cek lagi ID di layout dan nama fungsi yang dipakai.','bad')}},
+o6(v){const m=S.m[15],c=D[m.set[m.q]],bs=document.querySelectorAll('[data-a=o6]');v=+v;
+ bs.forEach((b,i)=>{b.disabled=true;if(i==c.a)b.classList.a
