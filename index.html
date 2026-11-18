@@ -31,6 +31,31 @@ ul{font-size:21px;line-height:1.4;margin:0;padding-left:24px}li{margin-bottom:8p
 textarea{width:100%;height:80px;font:inherit;font-size:19px;border-radius:8px;border:2px solid #5a7a98;padding:8px;background:#fff;color:#12263A}
 code{font-family:Consolas,monospace;background:#0b1620;padding:2px 8px;border-radius:6px;color:#F2B84B}
 [draggable=true]{cursor:grab}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.mob #stage{position:fixed;left:0;top:0;width:100%;height:100%;transform:none!important}
+.mob #hd{height:auto;flex-wrap:wrap;gap:6px 10px;padding:8px 12px;font-size:14px}
+.mob #hd b{font-size:16px;flex:1 1 100%}
+.mob button{font-size:16px;min-height:44px;padding:6px 12px}
+.mob #hd button{min-height:36px;font-size:14px;padding:4px 10px}
+.mob #mn{padding:12px 14px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.mob #ft{height:auto;min-height:60px;padding:8px 12px;font-size:13px;gap:6px}
+.mob #ft button{min-height:44px;font-size:16px}
+.mob h1{font-size:34px}.mob h2{font-size:22px}
+.mob p{font-size:17px;max-width:none}.mob ul{font-size:16px}
+.mob .row{flex-direction:column;gap:14px}
+.mob .row[style*="height"]{height:auto!important}
+.mob .row>*{flex:none}
+.mob .col[style*="max-width"]{max-width:none!important}
+.mob svg{max-width:100%;height:auto}
+.mob svg[aria-label*="Ilustrasi"]{max-width:200px;margin:0 auto;display:block}
+.mob #fb{font-size:16px;min-height:48px}
+.mob .slot{font-size:16px;padding:8px 0}
+.mob .card{padding:12px 14px}
+.mob #mn div[style*="grid-template-columns"]{grid-template-columns:1fr 1fr!important}
+.mob .card[style*="Consolas"]{font-size:14px!important;line-height:2.2!important;word-break:break-word}
+.mob span[style*="min-width"]{min-width:80px!important}
+.mob .ovl{position:fixed}
+.mob [style*="font-size:56px"]{font-size:40px!important}
 </style></head><body>
 <div id="stage"><div id="hd"></div><div id="mn"></div><div id="ft"></div></div>
 <script>
@@ -80,7 +105,7 @@ if(i>=0){ok=!!S.done[i];nx=i<14?'m'+(i+2):(i==14?'demo':(all?'result':'menu'));i
 const mid=i>=0?(i==15?'Demo ke klien':'Misi '+(i+1)+' dari 15'):({guide:'Panduan',menu:'Menu misi',result:'Evaluasi',credit:'Informasi kreator'}[s]||'');
 E('ft').innerHTML='<button id="pv" '+(pv?'':'style="visibility:hidden"')+'>Kembali</button><span>'+mid+'</span><button class="pri" id="nx" '+(ok?'':'disabled')+'>'+lb+'</button>';
 if(pv)E('pv').onclick=()=>go(pv);E('nx').onclick=()=>nx&&go(nx)}
-function go(s){stopT();S.scr=s;R[s]();hud();nav()}
+function go(s){stopT();S.scr=s;R[s]();E('mn').scrollTop=0;hud();nav()}
 
 /* ---------- layar ---------- */
 const R={
@@ -110,12 +135,4 @@ const c=D[m.set[m.q]];
 E('mn').innerHTML='<h2>Demo ke klien</h2><div style="font-size:22px;margin-bottom:8px">Soal '+(m.q+1)+' dari 5</div><div class="card"><p style="margin:0">'+c.q+'</p></div><div class="col" style="margin-top:12px;gap:8px">'+c.o.map((o,i)=>'<button data-a="o6" data-v="'+i+'">'+o+'</button>').join('')+'</div><div id="fb">Pilih jawaban yang paling tepat.</div>'},
 result(){const t=total(),p=Math.min(1,t/6300),n=p>=.85?3:p>=.6?2:1,L=['Calon developer, ayo coba lagi','Android Developer Junior','Android Developer Handal'][n-1],q=(...a)=>a.reduce((x,i)=>x+S.sc[i],0);
 const K=[['Mengenali',q(0,5,6,9)/1400],['Menyusun',q(1,2,3,7,8,10,12,13)/3500],['Menganalisis',q(4,11,14,15)/1400]],lo=K.slice().sort((a,b)=>a[1]-b[1])[0][0];
-E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="font-size:22px">Ringkasan pencapaian</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px">'+MS.map((x,i)=>'<div style="display:flex;justify-content:space-between;gap:6px;font-size:14px;padding:3px 0;border-bottom:1px solid #3d5c78"><span>'+(i<15?(i+1)+'. ':'')+x+'</span><b>'+S.sc[i]+'</b></div>').join('')+'</div></div><div class="card"><h2 style="font-size:22px">Refleksi</h2><p style="font-size:19px">Jika klien melapor aplikasi crash, apa yang pertama kali kamu lakukan dan mengapa?</p><textarea style="height:60px" aria-label="Jawaban refleksi"></textarea></div></div></div>';
-E('ag').onclick=()=>{S.done=Z(0);S.sc=Z(0);S.lv=Z(3);S.m=Z(null);go('menu')}},
-credit(){E('mn').innerHTML='<h2>Informasi kreator</h2><div class="card"><p>Kreator: [isi nama kreator, boleh disertai gelar]</p><p>Organisasi: [isi nama sekolah atau institusi]</p></div><div class="card" style="margin-top:14px"><p style="font-size:20px">Aset: seluruh ilustrasi berupa grafik vektor (SVG) yang dibuat oleh pengembang. Bunyi umpan balik dihasilkan oleh Web Audio API. Tidak ada aset atau tautan eksternal.</p></div>'}
-};
-
-/* ---------- misi 6-15 ---------- */
-const MS=['Kenali Ruang Kerjamu','Mulai Proyek','Rancang Layar Kasir','Hubungkan Kode','Tiket Bug dari Klien','Peta Proyek','Pilih Tata Letak','Daur Hidup Activity','Pindah Layar','Variabel dan Tipe Data','Alur Debugging','Dunia Kecerdasan Artifisial','Hitung Diskon','Menerbitkan APK','Etika dan Keamanan','Demo ke klien'];
-const X={
- 
+E('mn').innerHTML='<div class="row"><div class="card col" style="align-items:center;text-align:center;justify-content:center;gap:6px"><div style="font-size:56px;color:#F2B84B" aria-label="'+n+' bintang">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</div><h2 style="margin:0">'+L+'</h2><p style="font-size:24px;margin:0">Skor total: <b>'+t+'</b></p>'+K.map(k=>'<div style="width:100%;text-align:left;font-size:17px">'+k[0]+'<div style="height:12px;background:#0b1620;border-radius:6px"><div style="height:12px;width:'+Math.round(Math.min(1,k[1])*100)+'%;background:#F2B84B;border-radius:6px"></div></div></div>').join('')+'<p style="font-size:18px;margin:4px 0">Saran: ulangi misi yang melatih kemampuan '+lo.toLowerCase()+'.</p><button class="pri" id="ag">Main lagi</button></div><div class="col"><div class="card"><h2 style="
